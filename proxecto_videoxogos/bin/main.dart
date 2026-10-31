@@ -12,11 +12,10 @@ void main(List<String> args) {
   do{
     opcionString = menu.mostrarMenu(); // muestro el menú y guardo la opción, que es lo que han escrito por teclado sin revisar
 
-    //compruebo si lo que me han escrito por teclado es un número y no es nulo
-    //compruebo si el número está entre las opciones del menú
+    //compruebo si lo que me han escrito por teclado es un número y no es nulo:
     opcionInt = menu.comprobarNumero(opcionString);
 
-    if(opcionInt != null && menu.comprobarRango(opcionInt) == true){
+    if(opcionInt != null && menu.comprobarRango(opcionInt) == true){ //compruebo si el número está entre las opciones del menú
       opcionValida = true;
       if(opcionInt != 0){
         switch(opcionInt){
@@ -25,6 +24,7 @@ void main(List<String> args) {
           break;
           case 2:
           menu.engadirVideoxogo();
+
           break;
           case 3:
           menu.modificarVideoxogo();

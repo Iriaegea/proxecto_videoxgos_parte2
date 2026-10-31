@@ -32,7 +32,45 @@ class Menu {
      return true;
   }
 
+  String? validarNome(String? nome){
 
+  }
+
+
+  void cargarDatosExemplo(){
+
+    print("Datos de exemplo cargados");
+  }
+
+  void engadirVideoxogo(){
+    String? nome = "", prezo ="", xenero = "", dispositivo = "", stock ="";
+    String nomeValidado;
+    
+    print("Introduce os datos do novo videoxogo:\n ");
+
+    do{
+      print("\nNome: ");
+      nome=stdin.readLineSync();
+      nomeValidado = validarNome(nome);
+
+      if(nomeValidado)
+    }while(!nomeValido);  
+  
+    
+    print("\nPrezo: ");
+    prezo = stdin.readLineSync();
+
+    print("\nXénero: ");
+    xenero = stdin.readLineSync();
+    print("\nDispositivo: ");
+    dispositivo = stdin.readLineSync();
+    print("\nStock: ");
+    stock = stdin.readLineSync();
+
+
+
+
+  }
 
 
 }
