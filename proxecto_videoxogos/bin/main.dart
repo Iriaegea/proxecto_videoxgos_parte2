@@ -35,7 +35,7 @@ void main(List<String> args) {
           menu.listarVideoxogos();
           break;
           case 6:
-          menu.buscarVideoxogo();
+          menu.buscarVideoxogos();
           break;
           
         }

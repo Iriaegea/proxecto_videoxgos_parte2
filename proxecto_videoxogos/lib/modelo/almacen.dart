@@ -22,6 +22,44 @@ class Almacen {
   List<Videojuego> getVideojuegos(){
     return videojuegos;
   }
+
+
+  Videojuego? buscarVideoxogoCodigo(int codigoBuscado){
+    if(videojuegos.isNotEmpty){
+       for(Videojuego v in videojuegos){
+          if(v.codigo == codigoBuscado ){
+            return v;
+          }
+        }
+      return null;
+    }
+   return null;
+  }
+
+  void eliminarVideoXogo(Videojuego v){
+    videojuegos.remove(v);
+  }
+
+
+
+  List<Videojuego> buscarPorPalabra(String palabra){
+    List<Videojuego> listaVideoxogos = [];
+    if(videojuegos.isNotEmpty){
+      for(Videojuego v in videojuegos){
+        if(v.nombre.trim().toLowerCase().contains(palabra.trim().toLowerCase())|| v.genero.name.trim().toLowerCase() ==  palabra.toLowerCase()){
+          listaVideoxogos.add(v);
+        }
+
+      }
+      
+    } 
+  
+      return listaVideoxogos;
+    
+    
+  }
+
+  
   
 
 
