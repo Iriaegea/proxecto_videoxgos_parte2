@@ -10,11 +10,17 @@ class Almacen {
   int calcularCodigo(){ //calculo el código en función del tamaño del array
     return videojuegos.length +1;
   }
+
+
   void engadirVideoxogo(Videojuego v){
     videojuegos.add(v);
 
-    
-   
+
+  }
+
+
+  List<Videojuego> getVideojuegos(){
+    return videojuegos;
   }
   
 

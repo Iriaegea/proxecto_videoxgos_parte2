@@ -82,6 +82,7 @@ class Menu {
     List<Dispositivo> listaDispositivosV1=[]; 
     List<Dispositivo> listaDispositivosV2=[]; 
     List<Dispositivo> listaDispositivosV3=[]; 
+    List<Dispositivo> listaDispositivosV4=[]; 
     Dispositivo pc = Dispositivo(TipoDispositivo.pc);
     Dispositivo nintendo = Dispositivo(TipoDispositivo.nintendo);
     Dispositivo xbox =  Dispositivo(TipoDispositivo.xbox);
@@ -89,7 +90,7 @@ class Menu {
     print("Cargando datos de exemplo: ");
     codigo = almacenDeIria.calcularCodigo(); 
     listaDispositivosV1.add(pc);
-    Videojuego v1 = Videojuego(codigo: codigo, nombre: "Minecraft", precio: 20, genero: Generos.aventura, dispositivos: listaDispositivos, stock: 49);
+    Videojuego v1 = Videojuego(codigo: codigo, nombre: "Minecraft", precio: 20, genero: Generos.aventura, dispositivos: listaDispositivosV1, stock: 49);
     almacenDeIria.engadirVideoxogo(v1);
 
     
@@ -97,14 +98,20 @@ class Menu {
     listaDispositivosV2.add(xbox);
     listaDispositivosV2.add(pc);
     codigo = almacenDeIria.calcularCodigo();
-    Videojuego v2 = Videojuego(codigo: codigo, nombre: "Mario Kart", precio: 43, genero: Generos.carreras, dispositivos: listaDispositivos, stock: 134);
+    Videojuego v2 = Videojuego(codigo: codigo, nombre: "Mario Kart", precio: 43, genero: Generos.carreras, dispositivos: listaDispositivosV2, stock: 134);
     almacenDeIria.engadirVideoxogo(v2);
 
     
     listaDispositivosV3.add(nintendo);
     codigo = almacenDeIria.calcularCodigo();
-    Videojuego v3 = Videojuego(codigo: codigo, nombre: "Animal Crossing New Leaf", precio: 50, genero: Generos.rol, dispositivos: listaDispositivos, stock: 49);
+    Videojuego v3 = Videojuego(codigo: codigo, nombre: "Animal Crossing New Leaf", precio: 50, genero: Generos.rol, dispositivos: listaDispositivosV3, stock: 49);
     almacenDeIria.engadirVideoxogo(v3);
+    
+
+    codigo = almacenDeIria.calcularCodigo();
+    listaDispositivosV4.add(pc);
+    Videojuego v4 = Videojuego(codigo: codigo, nombre: "Los sims 4", precio: 78, genero: Generos.rol, dispositivos: listaDispositivosV4, stock: 30);
+    almacenDeIria.engadirVideoxogo(v4);
     print("Datos de exemplo cargados!");
   }
 
@@ -227,9 +234,37 @@ class Menu {
 
   }
 
+  void mostrarVideoxogos(){
+    List<Videojuego> videojuegos = almacenDeIria.getVideojuegos();
+    print("\nLista de videojuegos: ");
+
+    if(videojuegos.isNotEmpty){
+      for(int i = 0; i < videojuegos.length; i ++){
+        print(videojuegos[i]);
+
+        if((i +1) % 3 == 0 && i+1 < videojuegos.length){
+          print("Pulsa enter para continuar");
+          stdin.readLineSync();
+        }
+
+      }
+    } else {
+      print("No hay videojuegos en el almacén");
+    }
+
+  }
+
+
 
   void modificarVideoxogo(){
-    
+    String? codigoModificarString;
+    mostrarVideoxogos();
+
+    print("Cal é o código do videoxogo que queres modificar?: ");
+    codigoModificarString = stdin.readLineSync();
+
+
+
   }
 
 
