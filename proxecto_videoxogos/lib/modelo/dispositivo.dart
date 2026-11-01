@@ -4,4 +4,8 @@ class Dispositivo {
 
   Dispositivo(this.tipo);
   
+
+  List<TipoDispositivo> obterListaDispositivos(){
+    return TipoDispositivo.values;
+  }
 }

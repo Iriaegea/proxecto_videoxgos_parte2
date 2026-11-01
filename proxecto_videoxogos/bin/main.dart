@@ -7,7 +7,7 @@ void main(List<String> args) {
   int? opcionInt = 1;
 
   //creo el menú (ya tiene las opciones creadas, no hay que pasarle nada al constructor):
-  var menu = Menu();
+  Menu menu = Menu();
 
   do{
     opcionString = menu.mostrarMenu(); // muestro el menú y guardo la opción, que es lo que han escrito por teclado sin revisar
@@ -23,8 +23,7 @@ void main(List<String> args) {
           menu.cargarDatosExemplo();
           break;
           case 2:
-          menu.engadirVideoxogo();
-
+          menu.engadirVideoxogo();         
           break;
           case 3:
           menu.modificarVideoxogo();
