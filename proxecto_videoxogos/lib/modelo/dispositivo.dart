@@ -8,4 +8,9 @@ class Dispositivo {
   List<TipoDispositivo> obterListaDispositivos(){
     return TipoDispositivo.values;
   }
+
+  @override
+ String toString() {
+  return tipo.name;
+}
 }

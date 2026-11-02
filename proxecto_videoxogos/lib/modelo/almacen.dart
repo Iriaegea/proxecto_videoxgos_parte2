@@ -59,6 +59,14 @@ class Almacen {
     
   }
 
+
+  List<Videojuego> ordenarVideoxogos(){
+      List<Videojuego> listaOrdenada = videojuegos.toList();
+
+     listaOrdenada.sort((a, b) => a.precio.compareTo(b.precio));
+     return listaOrdenada;
+
+  }
   
   
 

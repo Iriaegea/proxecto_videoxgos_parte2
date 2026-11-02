@@ -37,6 +37,9 @@ void main(List<String> args) {
           case 6:
           menu.buscarVideoxogos();
           break;
+          case 7:
+          menu.mostrarVidedoxogosOrdenadosPorPrecio();
+          break;
           
         }
       }

@@ -8,6 +8,8 @@ import 'package:proxecto_cideo/modelo/Dispositivo.dart';
 import 'package:proxecto_cideo/modelo/Generos.dart';
 import 'package:proxecto_cideo/modelo/TipoDispositivo.dart';
 import 'package:proxecto_cideo/modelo/Videojuego.dart';
+import 'package:proxecto_cideo/modelo/VideojuegoDigital.dart';
+import 'package:proxecto_cideo/modelo/VideojuegoFisico.dart';
 class Menu {
 
   Almacen almacenDeIria = Almacen.vacio();
@@ -21,6 +23,7 @@ class Menu {
     4. Eliminar videoxogo
     5. Listar videoxogos
     6. Buscar videoxogo
+    7. Mostrar videoxogos ordenados por precio
     0. Saír\n""");
   
     stdout.write("Elixe unha opción: ");
@@ -37,14 +40,14 @@ class Menu {
   }
 
   bool comprobarRango(int opcion){ // comprobar si la opción elegida está en el menú
-    if(opcion < 0 || opcion > 6){
+    if(opcion < 0 || opcion > 7){
       return false;
     }
      return true;
   }
 
   bool comprobarRangoModificar(int opcion){
-    if(opcion < 0 || opcion > 5){
+    if(opcion < 0 || opcion > 6){
       return false;
     }
      return true;
@@ -100,7 +103,7 @@ class Menu {
     print("Cargando datos de exemplo: ");
     codigo = almacenDeIria.calcularCodigo(); 
     listaDispositivosV1.add(pc);
-    Videojuego v1 = Videojuego(codigo: codigo, nombre: "Minecraft", precio: 20, genero: Generos.aventura, dispositivos: listaDispositivosV1, stock: 49);
+    VideojuegoDigital v1 = VideojuegoDigital(codigo: codigo, nombre: "Minecraft", precio: 20, genero: Generos.aventura, dispositivos: listaDispositivosV1, stock: 49, tamano: 14);
     almacenDeIria.engadirVideoxogo(v1);
 
     
@@ -108,19 +111,19 @@ class Menu {
     listaDispositivosV2.add(xbox);
     listaDispositivosV2.add(pc);
     codigo = almacenDeIria.calcularCodigo();
-    Videojuego v2 = Videojuego(codigo: codigo, nombre: "Mario Kart", precio: 43, genero: Generos.carreras, dispositivos: listaDispositivosV2, stock: 134);
+    VideojuegoDigital v2 = VideojuegoDigital(codigo: codigo, nombre: "Mario Kart", precio: 43, genero: Generos.carreras, dispositivos: listaDispositivosV2, stock: 134, tamano: 56);
     almacenDeIria.engadirVideoxogo(v2);
 
     
     listaDispositivosV3.add(nintendo);
     codigo = almacenDeIria.calcularCodigo();
-    Videojuego v3 = Videojuego(codigo: codigo, nombre: "Animal Crossing New Leaf", precio: 50, genero: Generos.rol, dispositivos: listaDispositivosV3, stock: 49);
+    VideojuegoFisico v3 = VideojuegoFisico(codigo: codigo, nombre: "Animal Crossing New Leaf", precio: 50, genero: Generos.rol, dispositivos: listaDispositivosV3, stock: 49, numeroDeDiscos: 2);
     almacenDeIria.engadirVideoxogo(v3);
     
 
     codigo = almacenDeIria.calcularCodigo();
     listaDispositivosV4.add(pc);
-    Videojuego v4 = Videojuego(codigo: codigo, nombre: "Los sims 4", precio: 78, genero: Generos.rol, dispositivos: listaDispositivosV4, stock: 30);
+    VideojuegoFisico v4 = VideojuegoFisico(codigo: codigo, nombre: "Los sims 4", precio: 78, genero: Generos.rol, dispositivos: listaDispositivosV4, stock: 30, numeroDeDiscos: 1);
     almacenDeIria.engadirVideoxogo(v4);
     print("Datos de exemplo cargados!");
   }
@@ -253,6 +256,70 @@ class Menu {
 
     return stockInt!;
   }
+
+  int pedirNumeroDiscos(){
+    String? numeroDiscos;
+    int? numeroDiscosInt;
+    bool eValido = false;
+    do{
+      print("\nNúmero de discos: ");
+      numeroDiscos = stdin.readLineSync();
+      numeroDiscosInt = comprobarNumero(numeroDiscos);
+      if(numeroDiscosInt == null){
+        print("Introduce un número");
+        eValido = false;
+      } else {
+        eValido = true;
+      }
+    }while(!eValido);
+
+
+    return numeroDiscosInt!;
+    
+
+
+  }
+
+
+  double  pedirTamano(){
+    String? tamano;
+    double? tamanoDouble;
+    bool eValido = false;
+    do{
+      print("\nTamaño: ");
+      tamano = stdin.readLineSync();
+      tamanoDouble = validarDouble(tamano);
+      if(tamanoDouble == null){
+        print("Introduce un número");
+        eValido = false;
+      } else {
+        eValido = true;
+      }
+    }while(!eValido);
+
+
+    return tamanoDouble!;
+  }
+
+
+  bool esFisico(){
+    String? respuesta;
+    do{
+    print("\n O videoxogo que queres engadir é físico?(S/N): ");
+    respuesta = stdin.readLineSync()?.trim().toLowerCase();
+    }while(!validarStringSN(respuesta));
+
+    if (respuesta == "s"){
+      return true;
+    }else {
+      return false;
+    }
+    
+    
+    
+    
+
+  }
   void engadirVideoxogo(){
     String nome;
     double prezo;
@@ -260,7 +327,13 @@ class Menu {
     List<Dispositivo> listaDispositivos = [];
     Generos xenero;
     int codigo;
-    print("Introduce os datos do novo videoxogo:\n ");
+    int numeroDeDiscos;
+    double tamano;
+    Videojuego v;
+
+
+
+    print("\nIntroduce os datos do novo videoxogo:\n ");
     
     nome = pedirNome();
    
@@ -274,9 +347,17 @@ class Menu {
     
     codigo = almacenDeIria.calcularCodigo();
 
-    Videojuego v = Videojuego(codigo: codigo, nombre: nome, precio: prezo, genero: xenero, dispositivos: listaDispositivos, stock: stock);
+    if (esFisico()){// pregunto si es físico para saber qué datos pedir
+      numeroDeDiscos = pedirNumeroDiscos();
+      v = VideojuegoFisico(codigo: codigo, nombre: nome, precio: prezo, genero: xenero, dispositivos: listaDispositivos, stock: stock, numeroDeDiscos: numeroDeDiscos);
+    }else{
+      tamano = pedirTamano();
+      v = VideojuegoDigital(codigo: codigo, nombre: nome, precio: prezo, genero: xenero, dispositivos: listaDispositivos, stock: stock, tamano: tamano);
+    }
+
+    
     almacenDeIria.engadirVideoxogo(v);
-    print("Videoxogo engadido");
+    print("\nVideoxogo engadido");
 
   }
 
@@ -289,13 +370,13 @@ class Menu {
         print(videojuegos[i]);
 
         if((i +1) % 3 == 0 && i+1 < videojuegos.length){
-          print("Pulsa enter para continuar");
+          print("\nPulsa enter para continuar");
           stdin.readLineSync();
         }
 
       }
     } else {
-      print("No hay videojuegos en el almacén");
+      print("\nNo hay videojuegos en el almacén");
     }
 
   }
@@ -305,11 +386,11 @@ class Menu {
     int? codigoInt;
 
     do{
-      print("Cal é o código do videoxogo que queres modificar?: ");
+      print("\nCal é o código do videoxogo que estás a buscar?: ");
       codigoString= stdin.readLineSync();
       codigoInt = comprobarNumero(codigoString);
       if(codigoInt == null){
-        print("Escribe un código válido");
+        print("\nEscribe un código válido");
       }
 
     }while(codigoInt == null);
@@ -317,17 +398,72 @@ class Menu {
     return codigoInt;
   }
   
+int mostrarMenuFisico(){
+  bool eValido = false;
+  String? opcionString;
+  int? opcionInt;
+  do{
+        print("\nQué queres modificar?: ");
+        print("""1.  Nome
+        2. Prezo
+        3. Xénero
+        4. Dispositivos
+        5. stock
+        6. Número de CDs""");
+        print("\nElixe unha opción: ");
+        opcionString = stdin.readLineSync();
+        opcionInt = comprobarNumero(opcionString);
+
+        if(opcionInt == null || !comprobarRangoModificar(opcionInt)){
+         print("\nIntroduce un número do menú");
+         eValido = false;
+        } else {
+        eValido = true;
+        }
+      }while(!eValido);
+
+      return opcionInt!;
+}
+
+int mostrarMenuDigital(){
+  bool eValido = false;
+  String? opcionString;
+  int? opcionInt;
+  do{
+        print("\nQué queres modificar?: ");
+        print("""1.  Nome
+        2. Prezo
+        3. Xénero
+        4. Dispositivos
+        5. stock
+        6. Tamaño""");
+        print("\nElixe unha opción: ");
+        opcionString = stdin.readLineSync();
+        opcionInt = comprobarNumero(opcionString);
+
+        if(opcionInt == null || !comprobarRangoModificar(opcionInt)){
+         print("\nIntroduce un número do menú");
+         eValido = false;
+        } else {
+        eValido = true;
+        }
+      }while(!eValido);
+
+      return opcionInt!;
+}
+
+
+
   void modificarVideoxogo(){
-    String? codigoString;
     int? codigoInt;
-    String? opcionString;
-    int? opcionInt;
-    bool eValido = false;
     String nomeNovo;
     double prezoNovo;
     Generos xeneroNovo = Generos.aventura;
     List<Dispositivo> dispositivosNovos;
     int stockNovo;
+    int opcionInt;
+    int numeroDeDiscosNuevo;
+    double tamanonuevo;
 
 
 
@@ -342,31 +478,14 @@ class Menu {
     } else {
       print("\nVideoxogo atopado: \n");
       print(videojuegoBuscado);
-      do{
-        print("Qué queres modificar?: ");
-        print("""1.  Nome
-        2. Prezo
-        3. Xénero
-        4. Dispositivos
-        5. stock""");
-        print("\nElixe unha opción: ");
-        opcionString = stdin.readLineSync();
-        opcionInt = comprobarNumero(opcionString);
-
-        if(opcionInt == null || !comprobarRangoModificar(opcionInt)){
-         print("Introduce un número do menú");
-         eValido = false;
-        } else {
-        eValido = true;
-        }
-      }while(!eValido);
-
-      switch(opcionInt){
+      
+      if(videojuegoBuscado is VideojuegoFisico){
+        opcionInt = mostrarMenuFisico();
+        switch(opcionInt){
         case 1:
         nomeNovo = pedirNome();
 
         videojuegoBuscado.nombre = nomeNovo;
-          
         break;
 
         case 2:
@@ -391,7 +510,60 @@ class Menu {
         stockNovo = pedirStock();
           videojuegoBuscado.stock = stockNovo;
         break;
+
+        case 6:
+        numeroDeDiscosNuevo = pedirNumeroDiscos();
+        videojuegoBuscado.numeroDeDiscos = numeroDeDiscosNuevo;
+        break;
+
+
+
+
+      } 
+      } else if(videojuegoBuscado is VideojuegoDigital){
+
+        opcionInt = mostrarMenuDigital();
+        switch(opcionInt){
+        case 1:
+        nomeNovo = pedirNome();
+
+        videojuegoBuscado.nombre = nomeNovo;
+        break;
+
+        case 2:
+
+        prezoNovo = pedirPrezo();
+        videojuegoBuscado.precio = prezoNovo;
+        break;
+
+        case 3:
+        xeneroNovo = pedirXenero();
+        videojuegoBuscado.genero =xeneroNovo;
+          
+        break;
+
+        case 4:
+        dispositivosNovos = pedirDispositivos();
+
+        videojuegoBuscado.dispositivos = dispositivosNovos;
+        break;
+
+        case 5:
+        stockNovo = pedirStock();
+          videojuegoBuscado.stock = stockNovo;
+        break;
+
+        case 6:
+        tamanonuevo = pedirTamano();
+        videojuegoBuscado.tamano = tamanonuevo;
+        break;
+        }
+
+
       }
+      
+
+      
       
 
     }
@@ -436,7 +608,7 @@ class Menu {
   }
 
 
-  void buscarVideoxogo(){
+  void buscarVideoxogos(){
     List<Videojuego> videoxogosAtopados = [];
     String? palabra;
     do{
@@ -455,6 +627,19 @@ class Menu {
     }
     
 
+  }
+
+
+
+  void mostrarVidedoxogosOrdenadosPorPrecio(){
+
+
+    List<Videojuego> ordenados = almacenDeIria.ordenarVideoxogos();
+    ordenados.sort((a, b) => a.precio.compareTo(b.precio));
+
+    for(Videojuego v in ordenados){
+      print("\n$v");
+    }
   }
 
 

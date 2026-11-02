@@ -43,7 +43,7 @@ class Videojuego{
 
   @override
   String toString(){
-  return "\nCódigo: ${this.codigo}, Nombre: ${this.nombre}, Precio: ${this.precio}, Genero: ${this.genero}, Dispositivo/s: ${this.dispositivos}, Stock: ${this.stock}";
+  return "\nCódigo: ${this.codigo}, Nombre: ${this.nombre}, Precio: ${this.precio}, Genero: ${this.genero.name}, Dispositivo/s: ${this.dispositivos.toList().join(", ")} Stock: ${this.stock}";
   }
 
 
